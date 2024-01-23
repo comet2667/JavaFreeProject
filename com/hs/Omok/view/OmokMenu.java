@@ -1,9 +1,9 @@
-package com.hs.practice.view;
+package com.hs.omok.view;
 
 import java.util.Scanner;
 
-import com.hs.practice.controller.OmokController;
-import com.hs.practice.model.vo.Omok;
+import com.hs.omok.controller.OmokController;
+import com.hs.omok.model.vo.Omok;
 
 public class OmokMenu {
 	
@@ -33,22 +33,35 @@ public class OmokMenu {
 	}
 	
 	public void whiteOrder() {
-		System.out.print("백돌 가로값 입력 : ");
-		int wX = sc.nextInt();
-		System.out.print("백돌 세로값 입력 : ");
-		int wY = sc.nextInt();
-		oc.insertWhite(wX -1, wY -1);
-		oc.groundAllPrint();
-		
+		while (true) {
+			System.out.print("백돌 가로값 입력 : ");
+			int wX = sc.nextInt();
+			System.out.print("백돌 세로값 입력 : ");
+			int wY = sc.nextInt();
+			boolean wo = oc.insertWhite(wX - 1, wY - 1);
+			if (wo == false) {
+				System.out.println("해당 위치에 착수할 수 없습니다. 다시 입력해주세요.");
+				continue;
+			}
+			oc.groundAllPrint();
+			break;
+		}
 	}
-	
+
 	public void blackOrder() {
-		System.out.print("흑돌 가로값 입력 : ");
-		int bX = sc.nextInt();
-		System.out.print("흑돌 세로값 입력 : ");
-		int bY = sc.nextInt();
-		oc.insertBlack(bX -1, bY -1);
-		oc.groundAllPrint();
+		while (true) {
+			System.out.print("흑돌 가로값 입력 : ");
+			int bX = sc.nextInt();
+			System.out.print("흑돌 세로값 입력 : ");
+			int bY = sc.nextInt();
+			boolean bo = oc.insertBlack(bX - 1, bY - 1);
+			if (bo == false) {
+				System.out.println("해당 위치에 착수할 수 없습니다. 다시 입력해주세요.");
+				continue;
+			}
+			oc.groundAllPrint();
+			break;
+		}
 	}
 	
 	public void scorePrint() {
