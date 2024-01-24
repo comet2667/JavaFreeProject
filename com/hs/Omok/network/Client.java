@@ -8,44 +8,47 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+import com.hs.omok.controller.OmokController;
+import com.hs.omok.model.vo.Omok;
+
 public class Client {
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+	
+	private Scanner sc = new Scanner(System.in);
+	private OmokController oc = new OmokController();
+	private String serverIP = "192.168.10.24";
+	private int port = 3000;
+	
+	private Socket socket = null;
+	private BufferedReader br = null;
+	private PrintWriter pw = null;
+	
+	public void clientMain() {
 		
-//		// 1) 요청할 서버의 IP주소와 포트번호 확인
-		String serverIP = "192.168.10.24";
-		int port = 3000;
-		
-		//사용되는 통로(소켓, 스트림) 초기화
-		Socket socket = null;
-		BufferedReader br = null;
-		PrintWriter pw = null;
-//		
-		// 2) 서버에 연결 요청을 보내기 (요청하고자 하는 IP주소와 포트번호를 사용하여 소켓 객체 생성)
 		try {
-
-			socket = new Socket(serverIP, port); // 서버로 연결 요청
-
-			if (socket != null) { // 서버와의 연결 성공했을 경우
+			socket = new Socket(serverIP, port);
+			if (socket != null) {
 				System.out.println("서버(" + serverIP + " : " + port + ")로 연결 성공!");
-
-
 				// 입력용 스트림
 				br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
 				// 출력용 스트림
 				pw = new PrintWriter(socket.getOutputStream());
-
-				System.out.print(br.readLine()); // #1
-				String sendMessageX = sc.next();
-				pw.println(sendMessageX); // @1
-				pw.flush();
-
-				// System.out.print("입력 1 : ");
-				System.out.print(br.readLine()); // #2
-				String sendMessageY = sc.next();
-				pw.println(sendMessageY); // @2
-				pw.flush();		
+				
+				while(true) {
+					blackOrder();
+					oc.samSam();
+					oc.omokWin();
+					if(oc.omokWin() == Omok.BLACK) {
+						System.out.println("=================================흑돌 승리=================================");
+						return;
+					}
+					whiteOrder();
+					oc.omokWin();
+					if(oc.omokWin() == Omok.WHITE) {
+						System.out.println("=================================백돌 승리=================================");
+						return;
+					}
+				}
+				
 			}
 
 
@@ -62,6 +65,72 @@ public class Client {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void whiteOrder() {
+		try {
+			while (true) {
+				System.out.print(br.readLine());
+				String wX = sc.next();
+				pw.println(wX);
+				pw.flush();
+				System.out.print(br.readLine());
+				String wY = sc.next();
+				pw.println(wX);
+				pw.flush();
+				if (Integer.parseInt(wX) < 0 || Integer.parseInt(wX) > 19 ||
+						Integer.parseInt(wY) < 0 || Integer.parseInt(wY) > 19) {
+					System.out.println("해당 위치에 착수할 수 없습니다. 다시 입력해주세요.");
+					continue;
+				}
+				boolean wo = oc.insertWhite(Integer.parseInt(wX) - 1, Integer.parseInt(wY) - 1);
+				if (wo == false) {
+					System.out.println("해당 위치에 착수할 수 없습니다. 다시 입력해주세요.");
+					continue;
+				}
+				oc.groundAllPrint();
+				break;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void blackOrder() {
+		try {
+			while (true) {
+				System.out.print(br.readLine());
+				String bX = sc.next();
+				pw.println(bX);
+				pw.flush();
+				System.out.print(br.readLine());
+				String bY = sc.next();
+				pw.println(bX);
+				pw.flush();
+				if (Integer.parseInt(bX) < 0 || Integer.parseInt(bX) > 19 ||
+						Integer.parseInt(bY) < 0 || Integer.parseInt(bY) > 19) {
+					System.out.println("해당 위치에 착수할 수 없습니다. 다시 입력해주세요.");
+					continue;
+				}
+				boolean bo = oc.insertBlack(Integer.parseInt(bX) - 1, Integer.parseInt(bY) - 1);
+				if (bo == false) {
+					System.out.println("해당 위치에 착수할 수 없습니다. 다시 입력해주세요.");
+					continue;
+				}
+				oc.groundAllPrint();
+				break;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void scorePrint() {
+		
+	}
+	
+	public void groundAllPrint() {
+		
 	}
 
 }

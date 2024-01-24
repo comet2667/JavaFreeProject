@@ -38,6 +38,10 @@ public class OmokMenu {
 			int wX = sc.nextInt();
 			System.out.print("백돌 세로값 입력 : ");
 			int wY = sc.nextInt();
+			if (wX < 0 || wX > 19 || wY < 0 || wY > 19) {
+				System.out.println("해당 위치에 착수할 수 없습니다. 다시 입력해주세요.");
+				continue;
+			}
 			boolean wo = oc.insertWhite(wX - 1, wY - 1);
 			if (wo == false) {
 				System.out.println("해당 위치에 착수할 수 없습니다. 다시 입력해주세요.");
@@ -54,6 +58,10 @@ public class OmokMenu {
 			int bX = sc.nextInt();
 			System.out.print("흑돌 세로값 입력 : ");
 			int bY = sc.nextInt();
+			if (bX < 0 || bX > 19 || bY < 0 || bY > 19) {
+				System.out.println("해당 위치에 착수할 수 없습니다. 다시 입력해주세요.");
+				continue;
+			}
 			boolean bo = oc.insertBlack(bX - 1, bY - 1);
 			if (bo == false) {
 				System.out.println("해당 위치에 착수할 수 없습니다. 다시 입력해주세요.");
