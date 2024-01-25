@@ -37,6 +37,7 @@ public class OmokController {
 			return false;
 		} else {
 			om.insert(x, y, Omok.WHITE);
+			
 			return true;
 		}
 	}
