@@ -3,7 +3,6 @@ package com.hs.omok.network;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,7 +10,6 @@ import java.util.Scanner;
 
 import com.hs.omok.controller.OmokController;
 import com.hs.omok.model.vo.Omok;
-import com.hs.omok.view.OmokMenu;
 
 public class Server2 {
 
@@ -21,9 +19,16 @@ public class Server2 {
 	private PrintWriter pw = null;
 	private ServerSocket server = null;
 	private Scanner sc = new Scanner(System.in);
+	private int bX;
+	private int bY;
+	private int wX;
+	private int wY;
 
 	public void serverMain() {
-
+		int bgu = 0;
+		int wgu = 0;
+		int ow;
+		int check;
 		try {
 			server = new ServerSocket(port);
 			System.out.println("클라이언트 요청 대기중 ...");
@@ -33,19 +38,48 @@ public class Server2 {
 
 			while (true) {
 				blackOrder(); // in, out 2개
+				System.out.println("착수 확인 x : " + bX + " / y : " + bY);
+				System.out.println("1. 착수 확인");
+				System.out.println("2. 재입력");
+				System.out.println("0. 기권");
+				System.out.print("입력 : ");
+				check = sc.nextInt();
+				pw.println(String.format("%d",check));
+				pw.flush();
+				if (check == 1) {
+					bgu = oc.giveUp(0);
+				} else if (check == 2) {
+					oc.insertSet(bX - 1, bY - 1);
+					continue;
+				} else if (check == 0) {
+					bgu = oc.giveUp(Omok.BLACK);
+				}
 				oc.samSam();
-				oc.omokWin();
-				if (oc.omokWin() == Omok.BLACK) {
+				ow = oc.omokWin(bgu);
+				if (ow == Omok.BLACK) {
 					System.out.println("=================================흑돌 승리=================================");
 					return;
 				}
-				whiteOrder(); // in, out 2개
-				oc.omokWin();
-				if (oc.omokWin() == Omok.WHITE) {
-					System.out.println("=================================백돌 승리=================================");
-					return;
+				while (true) {
+					whiteOrder();
+					System.out.println("착수 확인 중");
+					
+					check = Integer.parseInt(br.readLine());
+					if (check == 1) {
+						wgu = oc.giveUp(0);
+					} else if (check == 2) {
+						oc.insertSet(wX - 1, wY - 1);
+						continue;
+					} else if (check == 0) {
+						wgu = oc.giveUp(Omok.WHITE);
+					}
+					ow = oc.omokWin(wgu);
+					if (ow == Omok.WHITE) {
+						System.out.println("=================================백돌 승리=================================");
+						return;
+					}
+					break;
 				}
-
 			}
 
 		} catch (IOException e) {
@@ -68,13 +102,15 @@ public class Server2 {
 	public void whiteOrder() {
 		try {
 			while (true) {
+				System.out.println("백돌 입력 중...(x)");
 				pw.println("백돌 가로값 입력 : ");
 				pw.flush();
-				int wX = Integer.parseInt(br.readLine());
+				wX = Integer.parseInt(br.readLine());
+				System.out.println("백돌 입력 중...(y)");
 				pw.println("백돌 세로값 입력 : ");
 				pw.flush();
 
-				int wY = Integer.parseInt(br.readLine());
+				wY = Integer.parseInt(br.readLine());
 				if (wX < 0 || wX > 19 || wY < 0 || wY > 19) {
 					System.out.println("해당 위치에 착수할 수 없습니다. 다시 입력해주세요.");
 					continue;
@@ -100,12 +136,12 @@ public class Server2 {
 				String bx = sc.next();
 				pw.println(bx); //출력 1
 				pw.flush();
-				int bX = Integer.parseInt(bx);	
+				bX = Integer.parseInt(bx);	
 				System.out.print("흑돌 가로값 입력 : ");
 				String by = sc.next();
 				pw.println(by);	//출력 2
 				pw.flush();
-				int bY = Integer.parseInt(by);
+				bY = Integer.parseInt(by);
 				boolean bo = oc.insertBlack(bX - 1, bY - 1);
 				if (bX < 0 || bX > 19 || bY < 0 || bY > 19) {
 					System.out.println("해당 위치에 착수할 수 없습니다. 다시 입력해주세요.");

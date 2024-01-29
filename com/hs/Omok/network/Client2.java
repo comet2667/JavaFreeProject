@@ -15,16 +15,28 @@ public class Client2 {
 	
 	private Scanner sc = new Scanner(System.in);
 	private OmokController oc = new OmokController();
-	private String serverIP = "192.168.10.24";
-	private int port = 3000;
+	private String serverIP;
+	private int port;
 	
 	private Socket socket = null;
 	private BufferedReader br = null;
 	private PrintWriter pw = null;
 	
+	private int bX;
+	private int bY;
+	private int wX;
+	private int wY;
+	
 	public void clientMain() {
-		
+		int bgu = 0;
+		int wgu = 0;
+		int ow;
+		int check;
 		try {
+			System.out.print("접속할 IP 주소 입력 : ");
+			serverIP = sc.next();
+			System.out.print("port 입력 : ");
+			port = sc.nextInt();
 			socket = new Socket(serverIP, port);
 			if (socket != null) {
 				System.out.println("서버(" + serverIP + " : " + port + ")로 연결 성공!");
@@ -33,19 +45,48 @@ public class Client2 {
 				// 출력용 스트림
 				pw = new PrintWriter(socket.getOutputStream());
 				
-				while(true) {
+				while (true) {
 					blackOrder();
+					System.out.println("착수 확인 중");
+					check = Integer.parseInt(br.readLine());
+					if (check == 1) {
+						bgu = oc.giveUp(0);
+					} else if (check == 2) {
+						oc.insertSet(bX - 1, bY - 1);
+						continue;
+					} else if (check == 0) {
+						bgu = oc.giveUp(Omok.BLACK);
+					}
 					oc.samSam();
-					oc.omokWin();
-					if(oc.omokWin() == Omok.BLACK) {
+					ow = oc.omokWin(bgu);
+					if (ow == Omok.BLACK) {
 						System.out.println("=================================흑돌 승리=================================");
 						return;
 					}
-					whiteOrder();
-					oc.omokWin();
-					if(oc.omokWin() == Omok.WHITE) {
-						System.out.println("=================================백돌 승리=================================");
-						return;
+					while (true) {
+						whiteOrder();
+						System.out.println("착수 확인 x : " + wX + " / y : " + wY);
+						System.out.println("1. 착수 확인");
+						System.out.println("2. 재입력");
+						System.out.println("0. 기권");
+						System.out.print("입력 : ");
+						check = sc.nextInt();
+						pw.println(String.format("%d",check));
+						pw.flush();
+						if (check == 1) {
+							wgu = oc.giveUp(0);
+						} else if (check == 2) {
+							oc.insertSet(wX - 1, wY - 1);
+							continue;
+						} else if (check == 0) {
+							wgu = oc.giveUp(Omok.WHITE);
+						}
+						ow = oc.omokWin(wgu);
+						if (ow == Omok.WHITE) {
+							System.out.println("=================================백돌 승리=================================");
+							return;
+						}
+						break;
 					}
 				}
 				
@@ -71,19 +112,21 @@ public class Client2 {
 		try {
 			while (true) {
 				System.out.print(br.readLine());
-				String wX = sc.next();
-				pw.println(wX);
+				String wx = sc.next();
+				pw.println(wx);
 				pw.flush();
 				System.out.print(br.readLine());
-				String wY = sc.next();
-				pw.println(wY);
+				String wy = sc.next();
+				pw.println(wy);
 				pw.flush();
-				if (Integer.parseInt(wX) < 0 || Integer.parseInt(wX) > 19 ||
-						Integer.parseInt(wY) < 0 || Integer.parseInt(wY) > 19) {
+				wX = Integer.parseInt(wx);
+				wY = Integer.parseInt(wy);
+				if (Integer.parseInt(wx) < 0 || Integer.parseInt(wx) > 19 ||
+						Integer.parseInt(wy) < 0 || Integer.parseInt(wy) > 19) {
 					System.out.println("해당 위치에 착수할 수 없습니다. 다시 입력해주세요.");
 					continue;
 				}
-				boolean wo = oc.insertWhite(Integer.parseInt(wX) - 1, Integer.parseInt(wY) - 1);
+				boolean wo = oc.insertWhite(Integer.parseInt(wx) - 1, Integer.parseInt(wy) - 1);
 				if (wo == false) {
 					System.out.println("해당 위치에 착수할 수 없습니다. 다시 입력해주세요.");
 					continue;
@@ -101,19 +144,21 @@ public class Client2 {
 		try {
 			while (true) {
 				System.out.println("흑돌 입력 중...(x)");	
-				String bX = br.readLine();	//입력1
+				String bx = br.readLine();	//입력1
 				//pw.println(bX);	
 				//pw.flush();
 				System.out.println("흑돌 입력 중...(y)");	
-				String bY = br.readLine();	//입력2
+				String by = br.readLine();	//입력2
 				//pw.println(bX);	
 				//pw.flush();
-				if (Integer.parseInt(bX) < 0 || Integer.parseInt(bX) > 19 ||
-						Integer.parseInt(bY) < 0 || Integer.parseInt(bY) > 19) {
+				bX = Integer.parseInt(bx);
+				bY = Integer.parseInt(by);
+				if (Integer.parseInt(bx) < 0 || Integer.parseInt(bx) > 19 ||
+						Integer.parseInt(by) < 0 || Integer.parseInt(by) > 19) {
 					System.out.println("흑돌 재입력 중...");
 					continue;
 				}
-				boolean bo = oc.insertBlack(Integer.parseInt(bX) - 1, Integer.parseInt(bY) - 1);
+				boolean bo = oc.insertBlack(Integer.parseInt(bx) - 1, Integer.parseInt(by) - 1);
 				if (bo == false) {
 					System.out.println("흑돌 재입력 중...");
 					continue;

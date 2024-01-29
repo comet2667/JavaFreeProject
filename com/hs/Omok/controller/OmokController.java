@@ -1,13 +1,5 @@
 package com.hs.omok.controller;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.Scanner;
-
 import com.hs.omok.model.vo.Omok;
 import com.hs.omok.controller.OmokController;
 
@@ -41,8 +33,17 @@ public class OmokController {
 			return true;
 		}
 	}
+	public void insertSet(int x, int y) {
+		om.insert(x, y, 0);
+	}
 	
-	public int omokWin() {	//Omok 2차원 배열을 반복문으로 확인 후 승자 반환
+	public int omokWin(int order) {	//Omok 2차원 배열을 반복문으로 확인 후 승자 반환
+		if(order == Omok.BLACK) {
+			return Omok.BLACK;
+		}else if(order == Omok.WHITE) {
+			return Omok.WHITE;
+		}
+		
 		int bxCount = 0;
 		int byCount = 0;
 		int bxyCount = 0;
@@ -81,7 +82,7 @@ public class OmokController {
 						byxCount = 0;
 					}
 				}
-				if (bxCount == 5 || byCount == 5 || bxyCount == 5 || byxCount == 5) {
+				if (bxCount >= 5 || byCount >= 5 || bxyCount >= 5 || byxCount >= 5) {
 					return Omok.BLACK;
 				}
 				
@@ -114,7 +115,7 @@ public class OmokController {
 						wyxCount = 0;
 					}
 				}
-				if (wxCount == 5 || wyCount == 5 || wxyCount == 5 || wyxCount == 5) {
+				if (wxCount >= 5 || wyCount >= 5 || wxyCount >= 5 || wyxCount >= 5) {
 					return Omok.WHITE;
 				}
 			}
@@ -128,8 +129,13 @@ public class OmokController {
 		
 	}
 	
-	public void giveUp() {	//	기권 처리(프론트 구현 시 사용예정 메소드)
-		
+	public int giveUp(int order) {	//	기권 처리
+		if(order == Omok.BLACK) {
+			return Omok.BLACK;
+		}else if(order == Omok.WHITE) {
+			return Omok.WHITE;
+		}
+		return 0;
 	}
 	
 	public void groundAllPrint() {	// Omok 클래스의 2차원 배열을 String 타입으로 출력
@@ -166,5 +172,13 @@ public class OmokController {
 	
 	public int[] scoreSet(int black, int white) {
 		return score;
+	}
+	
+	public void groundClear() {
+		for(int i = 0 ; i < 19 ; i++) {
+			for(int j = 0 ; j < 19 ; j++) {
+				om.insert(i, j, 0);
+			}
+		}
 	}
 }
