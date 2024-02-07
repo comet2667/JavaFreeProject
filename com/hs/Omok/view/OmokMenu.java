@@ -18,14 +18,18 @@ public class OmokMenu {
 	private int wX;
 	private int wY;
 	
+	public void login() {
+		
+	}
+	
 	public void mainMenu() {
 		while (true) {
-			System.out.println("1. È¥ÀÚÇÏ±â");
-			System.out.println("2. ¼­¹ö »ı¼º");
-			System.out.println("3. Å¬¶óÀÌ¾ğÆ® Á¢¼Ó");
-			System.out.println("4. Á÷Àü ±âº¸ È®ÀÎ");
-			System.out.println("9. ÇÁ·Î±×·¥ Á¾·á");
-			System.out.print("¸Ş´º ¹øÈ£ ÀÔ·Â : ");
+			System.out.println("1. í˜¼ìí•˜ê¸°");
+			System.out.println("2. ì„œë²„ ìƒì„±");
+			System.out.println("3. í´ë¼ì´ì–¸íŠ¸ ì ‘ì†");
+			System.out.println("4. ì§ì „ ê¸°ë³´ í™•ì¸");
+			System.out.println("9. í”„ë¡œê·¸ë¨ ì¢…ë£Œ");
+			System.out.print("ë©”ë‰´ ë²ˆí˜¸ ì…ë ¥ : ");
 			int num = sc.nextInt();
 			switch (num) {
 			case 1:
@@ -44,10 +48,10 @@ public class OmokMenu {
 				oc.groundAllPrint();
 				break;
 			case 9:
-				System.out.println("ÇÁ·Î±×·¥ Á¾·á");
+				System.out.println("í”„ë¡œê·¸ë¨ ì¢…ë£Œ");
 				return;
 			default:
-				System.out.println("´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+				System.out.println("ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 				break;
 			}
 		}
@@ -56,15 +60,16 @@ public class OmokMenu {
 	public void playMenu() {
 		int bgu = 0;
 		int wgu = 0;
-		int ow;
+		int ow1;
+		int ow2;
 		int check;
 		while (true) {
 			blackOrder();
-			System.out.println("Âø¼ö È®ÀÎ x : " + bX + " / y : " + bY);
-			System.out.println("1. Âø¼ö È®ÀÎ");
-			System.out.println("2. ÀçÀÔ·Â");
-			System.out.println("0. ±â±Ç");
-			System.out.print("ÀÔ·Â : ");
+			System.out.println("ì°©ìˆ˜ í™•ì¸ x : " + bX + " / y : " + bY);
+			System.out.println("1. ì°©ìˆ˜ í™•ì¸");
+			System.out.println("2. ì¬ì…ë ¥");
+			System.out.println("0. ê¸°ê¶Œ");
+			System.out.print("ì…ë ¥ : ");
 			check = sc.nextInt();
 			if (check == 1) {
 				bgu = oc.giveUp(0);
@@ -73,20 +78,28 @@ public class OmokMenu {
 				continue;
 			} else if (check == 0) {
 				bgu = oc.giveUp(Omok.BLACK);
+			} else if (check < 0 || check > 2) {
+				System.out.println("ì…ë ¥ì´ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+				continue;
 			}
 			oc.samSam();
-			ow = oc.omokWin(bgu);
-			if (ow == Omok.BLACK) {
-				System.out.println("=================================Èæµ¹ ½Â¸®=================================");
+			ow1 = oc.omokWin(bgu);
+			ow2 = oc.omokWin();
+			if (ow2 == Omok.BLACK) {
+				System.out.println("=================================í‘ëŒ ìŠ¹ë¦¬=================================");
+				return;
+			} else if (ow1 == Omok.BLACK) {
+				System.out.println("=================================ë°±ëŒ ìŠ¹ë¦¬=================================");
 				return;
 			}
+			oc.groundAllPrint();
 			while (true) {
 				whiteOrder();
-				System.out.println("Âø¼ö È®ÀÎ x : " + wX + " / y : " + wY);
-				System.out.println("1. Âø¼ö È®ÀÎ");
-				System.out.println("2. ÀçÀÔ·Â");
-				System.out.println("0. ±â±Ç");
-				System.out.print("ÀÔ·Â : ");
+				System.out.println("ì°©ìˆ˜ í™•ì¸ x : " + wX + " / y : " + wY);
+				System.out.println("1. ì°©ìˆ˜ í™•ì¸");
+				System.out.println("2. ì¬ì…ë ¥");
+				System.out.println("0. ê¸°ê¶Œ");
+				System.out.print("ì…ë ¥ : ");
 				check = sc.nextInt();
 				if (check == 1) {
 					wgu = oc.giveUp(0);
@@ -95,54 +108,61 @@ public class OmokMenu {
 					continue;
 				} else if (check == 0) {
 					wgu = oc.giveUp(Omok.WHITE);
+				} else if (check < 0 || check > 2) {
+					System.out.println("ì…ë ¥ì´ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+					continue;
 				}
-				ow = oc.omokWin(wgu);
-				if (ow == Omok.WHITE) {
-					System.out.println("=================================¹éµ¹ ½Â¸®=================================");
+				ow1 = oc.omokWin(wgu);
+				ow2 = oc.omokWin();
+				if (ow2 == Omok.WHITE) {
+					System.out.println("=================================ë°±ëŒ ìŠ¹ë¦¬=================================");
+					return;
+				} else if (ow1 == Omok.WHITE) {
+					System.out.println("=================================í‘ëŒ ìŠ¹ë¦¬=================================");
 					return;
 				}
 				break;
 			}
+			oc.groundAllPrint();
 		}
 	}
 	
 	public void whiteOrder() {
 		while (true) {
-			System.out.print("¹éµ¹ °¡·Î°ª ÀÔ·Â : ");
+			System.out.print("ë°±ëŒ ê°€ë¡œê°’ ì…ë ¥ : ");
 			wX = sc.nextInt();
-			System.out.print("¹éµ¹ ¼¼·Î°ª ÀÔ·Â : ");
+			System.out.print("ë°±ëŒ ì„¸ë¡œê°’ ì…ë ¥ : ");
 			wY = sc.nextInt();
 			
 			if (wX < 0 || wX > 19 || wY < 0 || wY > 19) {
-				System.out.println("ÇØ´ç À§Ä¡¿¡ Âø¼öÇÒ ¼ö ¾ø½À´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+				System.out.println("í•´ë‹¹ ìœ„ì¹˜ì— ì°©ìˆ˜í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 				continue;
 			}
 			boolean wo = oc.insertWhite(wX - 1, wY - 1);
 			if (wo == false) {
-				System.out.println("ÇØ´ç À§Ä¡¿¡ Âø¼öÇÒ ¼ö ¾ø½À´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+				System.out.println("í•´ë‹¹ ìœ„ì¹˜ì— ì°©ìˆ˜í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 				continue;
 			}
-			oc.groundAllPrint();
+			
 			break;
 		}
 	}
 
 	public void blackOrder() {
 		while (true) {
-			System.out.print("Èæµ¹ °¡·Î°ª ÀÔ·Â : ");
+			System.out.print("í‘ëŒ ê°€ë¡œê°’ ì…ë ¥ : ");
 			bX = sc.nextInt();
-			System.out.print("Èæµ¹ ¼¼·Î°ª ÀÔ·Â : ");
+			System.out.print("í‘ëŒ ì„¸ë¡œê°’ ì…ë ¥ : ");
 			bY = sc.nextInt();
 			if (bX < 0 || bX > 19 || bY < 0 || bY > 19) {
-				System.out.println("ÇØ´ç À§Ä¡¿¡ Âø¼öÇÒ ¼ö ¾ø½À´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+				System.out.println("í•´ë‹¹ ìœ„ì¹˜ì— ì°©ìˆ˜í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 				continue;
 			}
 			boolean bo = oc.insertBlack(bX - 1, bY - 1);
 			if (bo == false) {
-				System.out.println("ÇØ´ç À§Ä¡¿¡ Âø¼öÇÒ ¼ö ¾ø½À´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+				System.out.println("í•´ë‹¹ ìœ„ì¹˜ì— ì°©ìˆ˜í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 				continue;
 			}
-			oc.groundAllPrint();
 			break;
 		}
 	}

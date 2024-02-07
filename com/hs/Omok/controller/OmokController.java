@@ -7,15 +7,15 @@ public class OmokController {
 	
 	private Omok om = new Omok();
 	private int[] score = new int[2];
-	private String empty = "\t¡¤";
-	private String white = "\t¡Û";
-	private String black = "\t¡Ü";
+	private String empty = "\tÂ·";
+	private String white = "\tâ—‹";
+	private String black = "\tâ—";
 	
 	public OmokController() {
 		
 	}
 	
-	public boolean insertBlack(int x, int y) {	//Èæµ¹ Âø¼ö, Áßº¹°ª ÀÖÀ» °æ¿ì false ¹İÈ¯
+	public boolean insertBlack(int x, int y) {	//í‘ëŒ ì°©ìˆ˜, ì¤‘ë³µê°’ ìˆì„ ê²½ìš° false ë°˜í™˜
 		if (om.groundPrint()[y][x] !=0) { //|| x < 0 || x > 19 || y < 0 || y > 19) {
 			return false;
 		} else {
@@ -24,7 +24,7 @@ public class OmokController {
 		}
 	}
 
-	public boolean insertWhite(int x, int y) {	//¹éµ¹ Âø¼ö, Áßº¹°ª ÀÖÀ» °æ¿ì false ¹İÈ¯
+	public boolean insertWhite(int x, int y) {	//ë°±ëŒ ì°©ìˆ˜, ì¤‘ë³µê°’ ìˆì„ ê²½ìš° false ë°˜í™˜
 		if (om.groundPrint()[y][x] !=0) { //|| x < 0 || x > 19 || y < 0 || y > 19) {
 			return false;
 		} else {
@@ -37,24 +37,23 @@ public class OmokController {
 		om.insert(x, y, 0);
 	}
 	
-	public int omokWin(int order) {	//Omok 2Â÷¿ø ¹è¿­À» ¹İº¹¹®À¸·Î È®ÀÎ ÈÄ ½ÂÀÚ ¹İÈ¯
-		if(order == Omok.BLACK) {
-			return Omok.BLACK;
-		}else if(order == Omok.WHITE) {
-			return Omok.WHITE;
-		}
+	public int omokWin() {	//Omok 2ì°¨ì› ë°°ì—´ì„ ë°˜ë³µë¬¸ìœ¼ë¡œ í™•ì¸ í›„ ìŠ¹ì ë°˜í™˜
 		
 		int bxCount = 0;
 		int byCount = 0;
-		int bxyCount = 0;
-		int byxCount = 0;
+		int bxyCount1 = 0;
+		int byxCount1 = 0;
+		int bxyCount2 = 0;
+		int byxCount2 = 0;
 		int wxCount = 0;
 		int wyCount = 0;
-		int wxyCount = 0;
-		int wyxCount = 0;
+		int wxyCount1 = 0;
+		int wyxCount1 = 0;
+		int wxyCount2 = 0;
+		int wyxCount2 = 0;
 		
-		int cntB = 0;
-		int cntW = 0;
+		//int cntB = 0;
+		//int cntW = 0;
 		
 		for(int i = 0 ; i < 19 ; i++) {
 			
@@ -69,25 +68,36 @@ public class OmokController {
 				}else {
 					byCount = 0;
 				}
-				if ((j + cntB) < 19) {
+				if ((j + i) < 19) {
 
-					if (om.groundPrint()[j][j + cntB] == Omok.BLACK) {
-						bxyCount += 1;
+					if (om.groundPrint()[j + i][j] == Omok.BLACK) {
+						bxyCount1 += 1;
 					} else {
-						bxyCount = 0;
+						bxyCount1 = 0;
 					}
-					if (om.groundPrint()[j + cntB][18 - j] == Omok.BLACK) {
-						byxCount += 1;
+					if (om.groundPrint()[j][18 - (j + i)] == Omok.BLACK) {
+						byxCount1 += 1;
 					} else {
-						byxCount = 0;
+						byxCount1 = 0;
+					}
+					if (om.groundPrint()[j][j + i] == Omok.BLACK) {
+						bxyCount2 += 1;
+					} else {
+						bxyCount2 = 0;
+					}
+					if (om.groundPrint()[18 - (j + i)][j] == Omok.BLACK) {
+						byxCount2 += 1;
+					} else {
+						byxCount2 = 0;
 					}
 				}
-				if (bxCount >= 5 || byCount >= 5 || bxyCount >= 5 || byxCount >= 5) {
+				if (bxCount >= 5 || byCount >= 5 || bxyCount1 >= 5 || byxCount1 >= 5 ||
+						bxyCount2 >= 5 || byxCount2 >= 5) {
 					return Omok.BLACK;
 				}
 				
 			}
-			cntB += 1;
+			//cntB += 1;
 		}
 		
 		for(int i = 0; i < 19 ; i++) {
@@ -102,34 +112,41 @@ public class OmokController {
 				}else {
 					wyCount = 0;
 				}
-				if ((j + cntW) < 19) {
+				if ((j + i) < 19) {
 
-					if (om.groundPrint()[j][j + cntW] == Omok.WHITE) {
-						wxyCount += 1;
+					if (om.groundPrint()[j][j + i] == Omok.WHITE) {
+						wxyCount1 += 1;
 					} else {
-						wxyCount = 0;
+						wxyCount1 = 0;
 					}
-					if (om.groundPrint()[j + cntW][18 - j] == Omok.WHITE) {
-						wyxCount += 1;
+					if (om.groundPrint()[j][18 - (j + i)] == Omok.WHITE) {
+						wyxCount1 += 1;
 					} else {
-						wyxCount = 0;
+						wyxCount1 = 0;
+					}
+					if (om.groundPrint()[j][j + i] == Omok.WHITE) {
+						wxyCount2 += 1;
+					} else {
+						wxyCount2 = 0;
+					}
+					if (om.groundPrint()[18 - (j + i)][j] == Omok.WHITE) {
+						wyxCount2 += 1;
+					} else {
+						wyxCount2 = 0;
 					}
 				}
-				if (wxCount >= 5 || wyCount >= 5 || wxyCount >= 5 || wyxCount >= 5) {
+				if (wxCount >= 5 || wyCount >= 5 || wxyCount1 >= 5 || wyxCount1 >= 5 ||
+						wxyCount2 >= 5 || wyxCount2 >= 5) {
 					return Omok.WHITE;
 				}
 			}
-			cntW += 1;
+			//cntW += 1;
 
 		}
 		return 0;
 	}
 	
-	public void samSam() {	//	»ï»ï °¨Áö
-		
-	}
-	
-	public int giveUp(int order) {	//	±â±Ç Ã³¸®
+	public int omokWin(int order) {	//Omok 2ì°¨ì› ë°°ì—´ì„ ë°˜ë³µë¬¸ìœ¼ë¡œ í™•ì¸ í›„ ìŠ¹ì ë°˜í™˜
 		if(order == Omok.BLACK) {
 			return Omok.BLACK;
 		}else if(order == Omok.WHITE) {
@@ -138,7 +155,20 @@ public class OmokController {
 		return 0;
 	}
 	
-	public void groundAllPrint() {	// Omok Å¬·¡½ºÀÇ 2Â÷¿ø ¹è¿­À» String Å¸ÀÔÀ¸·Î Ãâ·Â
+	public void samSam() {	//	ì‚¼ì‚¼ ê°ì§€
+		
+	}
+	
+	public int giveUp(int order) {	//	ê¸°ê¶Œ ì²˜ë¦¬
+		if(order == Omok.BLACK) {
+			return Omok.BLACK;
+		}else if(order == Omok.WHITE) {
+			return Omok.WHITE;
+		}
+		return 0;
+	}
+	
+	public void groundAllPrint() {	// Omok í´ë˜ìŠ¤ì˜ 2ì°¨ì› ë°°ì—´ì„ String íƒ€ì…ìœ¼ë¡œ ì¶œë ¥
 		for(int i = 1; i < 20 ; i++) {
 			System.out.print("\t"+i);
 		}

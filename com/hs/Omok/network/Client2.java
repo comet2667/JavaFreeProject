@@ -30,24 +30,25 @@ public class Client2 {
 	public void clientMain() {
 		int bgu = 0;
 		int wgu = 0;
-		int ow;
+		int ow1;
+		int ow2;
 		int check;
 		try {
-			System.out.print("Á¢¼ÓÇÒ IP ÁÖ¼Ò ÀÔ·Â : ");
+			System.out.print("ì ‘ì†í•  IP ì£¼ì†Œ ì…ë ¥ : ");
 			serverIP = sc.next();
-			System.out.print("port ÀÔ·Â : ");
+			System.out.print("port ì…ë ¥ : ");
 			port = sc.nextInt();
 			socket = new Socket(serverIP, port);
 			if (socket != null) {
-				System.out.println("¼­¹ö(" + serverIP + " : " + port + ")·Î ¿¬°á ¼º°ø!");
-				// ÀÔ·Â¿ë ½ºÆ®¸²
+				System.out.println("ì„œë²„(" + serverIP + " : " + port + ")ë¡œ ì—°ê²° ì„±ê³µ!");
+				// ì…ë ¥ìš© ìŠ¤íŠ¸ë¦¼
 				br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				// Ãâ·Â¿ë ½ºÆ®¸²
+				// ì¶œë ¥ìš© ìŠ¤íŠ¸ë¦¼
 				pw = new PrintWriter(socket.getOutputStream());
 				
 				while (true) {
 					blackOrder();
-					System.out.println("Âø¼ö È®ÀÎ Áß");
+					System.out.println("ì°©ìˆ˜ í™•ì¸ ì¤‘");
 					check = Integer.parseInt(br.readLine());
 					if (check == 1) {
 						bgu = oc.giveUp(0);
@@ -56,20 +57,29 @@ public class Client2 {
 						continue;
 					} else if (check == 0) {
 						bgu = oc.giveUp(Omok.BLACK);
+					} else if (check < 0 || check > 2) {
+						System.out.println("ì…ë ¥ì´ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+						continue;
 					}
 					oc.samSam();
-					ow = oc.omokWin(bgu);
-					if (ow == Omok.BLACK) {
-						System.out.println("=================================Èæµ¹ ½Â¸®=================================");
+					ow1 = oc.omokWin(bgu);
+					ow2 = oc.omokWin();
+					if (ow2 == Omok.BLACK) {
+						System.out.println("=================================í‘ëŒ ìŠ¹ë¦¬=================================");
+						return;
+					} else if (ow1 == Omok.BLACK) {
+						System.out.println("=================================ë°±ëŒ ìŠ¹ë¦¬=================================");
 						return;
 					}
+					oc.groundAllPrint();
+
 					while (true) {
 						whiteOrder();
-						System.out.println("Âø¼ö È®ÀÎ x : " + wX + " / y : " + wY);
-						System.out.println("1. Âø¼ö È®ÀÎ");
-						System.out.println("2. ÀçÀÔ·Â");
-						System.out.println("0. ±â±Ç");
-						System.out.print("ÀÔ·Â : ");
+						System.out.println("ì°©ìˆ˜ í™•ì¸ x : " + wX + " / y : " + wY);
+						System.out.println("1. ì°©ìˆ˜ í™•ì¸");
+						System.out.println("2. ì¬ì…ë ¥");
+						System.out.println("0. ê¸°ê¶Œ");
+						System.out.print("ì…ë ¥ : ");
 						check = sc.nextInt();
 						pw.println(String.format("%d",check));
 						pw.flush();
@@ -80,14 +90,23 @@ public class Client2 {
 							continue;
 						} else if (check == 0) {
 							wgu = oc.giveUp(Omok.WHITE);
+						} else if (check < 0 || check > 2) {
+							System.out.println("ì…ë ¥ì´ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+							continue;
 						}
-						ow = oc.omokWin(wgu);
-						if (ow == Omok.WHITE) {
-							System.out.println("=================================¹éµ¹ ½Â¸®=================================");
+						ow1 = oc.omokWin(wgu);
+						ow2 = oc.omokWin();
+						if (ow2 == Omok.WHITE) {
+							System.out.println("=================================ë°±ëŒ ìŠ¹ë¦¬=================================");
+							return;
+						} else if (ow1 == Omok.WHITE) {
+							System.out.println("=================================í‘ëŒ ìŠ¹ë¦¬=================================");
 							return;
 						}
 						break;
 					}
+					oc.groundAllPrint();
+
 				}
 				
 			}
@@ -123,15 +142,14 @@ public class Client2 {
 				wY = Integer.parseInt(wy);
 				if (Integer.parseInt(wx) < 0 || Integer.parseInt(wx) > 19 ||
 						Integer.parseInt(wy) < 0 || Integer.parseInt(wy) > 19) {
-					System.out.println("ÇØ´ç À§Ä¡¿¡ Âø¼öÇÒ ¼ö ¾ø½À´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+					System.out.println("í•´ë‹¹ ìœ„ì¹˜ì— ì°©ìˆ˜í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 					continue;
 				}
 				boolean wo = oc.insertWhite(Integer.parseInt(wx) - 1, Integer.parseInt(wy) - 1);
 				if (wo == false) {
-					System.out.println("ÇØ´ç À§Ä¡¿¡ Âø¼öÇÒ ¼ö ¾ø½À´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+					System.out.println("í•´ë‹¹ ìœ„ì¹˜ì— ì°©ìˆ˜í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
 					continue;
 				}
-				oc.groundAllPrint();
 				
 				break;
 			}
@@ -143,27 +161,26 @@ public class Client2 {
 	public void blackOrder() {
 		try {
 			while (true) {
-				System.out.println("Èæµ¹ ÀÔ·Â Áß...(x)");	
-				String bx = br.readLine();	//ÀÔ·Â1
+				System.out.println("í‘ëŒ ì…ë ¥ ì¤‘...(x)");	
+				String bx = br.readLine();	//ì…ë ¥1
 				//pw.println(bX);	
 				//pw.flush();
-				System.out.println("Èæµ¹ ÀÔ·Â Áß...(y)");	
-				String by = br.readLine();	//ÀÔ·Â2
+				System.out.println("í‘ëŒ ì…ë ¥ ì¤‘...(y)");	
+				String by = br.readLine();	//ì…ë ¥2
 				//pw.println(bX);	
 				//pw.flush();
 				bX = Integer.parseInt(bx);
 				bY = Integer.parseInt(by);
 				if (Integer.parseInt(bx) < 0 || Integer.parseInt(bx) > 19 ||
 						Integer.parseInt(by) < 0 || Integer.parseInt(by) > 19) {
-					System.out.println("Èæµ¹ ÀçÀÔ·Â Áß...");
+					System.out.println("í‘ëŒ ì¬ì…ë ¥ ì¤‘...");
 					continue;
 				}
 				boolean bo = oc.insertBlack(Integer.parseInt(bx) - 1, Integer.parseInt(by) - 1);
 				if (bo == false) {
-					System.out.println("Èæµ¹ ÀçÀÔ·Â Áß...");
+					System.out.println("í‘ëŒ ì¬ì…ë ¥ ì¤‘...");
 					continue;
 				}
-				oc.groundAllPrint();
 				break;
 			}
 		} catch (IOException e) {
