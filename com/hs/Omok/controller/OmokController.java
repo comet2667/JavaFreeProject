@@ -1,7 +1,10 @@
 package com.hs.omok.controller;
 
+import java.util.ArrayList;
+
 import com.hs.omok.model.vo.Omok;
-import com.hs.omok.controller.OmokController;
+import com.hs.omok.model.vo.User;
+import com.hs.omok.service.Service;
 
 public class OmokController {
 	
@@ -210,5 +213,28 @@ public class OmokController {
 				om.insert(i, j, 0);
 			}
 		}
+	}
+	
+	public void insertUser(String userName, String stone, String result, int count) {
+		User u = new User(userName, stone, result, count);
+		
+		int rslt = new Service().insertUser(u);
+		
+		if (rslt > 0) {
+			
+		} else {
+			
+		}
+	}
+	
+	public void selectAllList() {
+		ArrayList<User> list = new Service().selectAllList();
+		
+		if (list.size() > 0) {
+			
+		} else {
+			
+		}
+		
 	}
 }

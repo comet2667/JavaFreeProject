@@ -46,6 +46,9 @@ public class Client2 {
 				// 출력용 스트림
 				pw = new PrintWriter(socket.getOutputStream());
 				
+				System.out.print("등록을 위한 이름을 입력해주세요. : ");
+				String userName = sc.next();
+				pw.println(userName);
 				while (true) {
 					blackOrder();
 					System.out.println("착수 확인 중");

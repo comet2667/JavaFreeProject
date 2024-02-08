@@ -28,6 +28,7 @@ public class OmokMenu {
 			System.out.println("2. 서버 생성");
 			System.out.println("3. 클라이언트 접속");
 			System.out.println("4. 직전 기보 확인");
+			System.out.println("5. 전체 전적 확인");
 			System.out.println("9. 프로그램 종료");
 			System.out.print("메뉴 번호 입력 : ");
 			int num = sc.nextInt();
@@ -47,12 +48,15 @@ public class OmokMenu {
 			case 4:
 				oc.groundAllPrint();
 				break;
+			case 5 :
+				oc.selectAllList();
+				break;
 			case 9:
 				System.out.println("프로그램 종료");
 				return;
 			default:
 				System.out.println("다시 입력해주세요.");
-				break;
+				continue;
 			}
 		}
 	}

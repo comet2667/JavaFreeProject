@@ -36,7 +36,11 @@ public class Server2 {
 			Socket socket = server.accept();
 			br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			pw = new PrintWriter(socket.getOutputStream());
-
+			
+			System.out.println("상대방 정보 입력 대기중 ...");
+			String userName = br.readLine();
+			System.out.println(userName + "님 접속 완료.");
+			
 			while (true) {
 				blackOrder(); // in, out 2개
 				System.out.println("착수 확인 x : " + bX + " / y : " + bY);
