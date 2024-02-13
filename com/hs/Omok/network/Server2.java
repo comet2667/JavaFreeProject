@@ -10,6 +10,8 @@ import java.util.Scanner;
 
 import com.hs.omok.controller.OmokController;
 import com.hs.omok.model.vo.Omok;
+import com.hs.omok.model.vo.User;
+import com.hs.omok.service.Service;
 
 public class Server2 {
 
@@ -30,7 +32,11 @@ public class Server2 {
 		int ow1;
 		int ow2;
 		int check;
+		int count = 0;
+		
 		try {
+			System.out.print("등록을 위한 이름을 입력해주세요. : ");
+			String blackUserName = sc.next();
 			server = new ServerSocket(port);
 			System.out.println("클라이언트 요청 대기중 ...");
 			Socket socket = server.accept();
@@ -38,8 +44,8 @@ public class Server2 {
 			pw = new PrintWriter(socket.getOutputStream());
 			
 			System.out.println("상대방 정보 입력 대기중 ...");
-			String userName = br.readLine();
-			System.out.println(userName + "님 접속 완료.");
+			String whiteUserName = br.readLine();
+			System.out.println(whiteUserName + "님 접속 완료.");
 			
 			while (true) {
 				blackOrder(); // in, out 2개
@@ -67,9 +73,11 @@ public class Server2 {
 				ow2 = oc.omokWin();
 				if (ow2 == Omok.BLACK) {
 					System.out.println("=================================흑돌 승리=================================");
+					gameOver(Omok.BLACK, blackUserName, whiteUserName, count);
 					return;
 				} else if (ow1 == Omok.BLACK) {
 					System.out.println("=================================백돌 승리=================================");
+					gameOver(Omok.WHITE, whiteUserName, blackUserName, count);
 					return;
 				}
 				oc.groundAllPrint();
@@ -94,15 +102,17 @@ public class Server2 {
 					ow2 = oc.omokWin();
 					if (ow2 == Omok.WHITE) {
 						System.out.println("=================================백돌 승리=================================");
+						gameOver(Omok.WHITE, whiteUserName, blackUserName, count);
 						return;
 					} else if (ow1 == Omok.WHITE) {
 						System.out.println("=================================흑돌 승리=================================");
+						gameOver(Omok.BLACK, blackUserName, whiteUserName, count);
 						return;
 					}
 					break;
 				}
 				oc.groundAllPrint();
-
+				count ++;
 			}
 
 		} catch (IOException e) {
@@ -178,6 +188,19 @@ public class Server2 {
 		//} catch (IOException e) {
 		//	e.printStackTrace();
 		//}
+	}
+	public void gameOver(int winner, String wName, String lName, int count) {
+		User w = null;
+		User l = null;
+		if (winner == Omok.BLACK) {
+			w = new User(wName, "흑돌", "승", count);
+			l = new User(lName, "백돌", "패", count);
+		} else {
+			w = new User(wName, "백돌", "승", count);
+			l = new User(lName, "흑돌", "패", count);
+		}
+		new Service().insertUser(w);
+		new Service().insertUser(l);
 	}
 
 }

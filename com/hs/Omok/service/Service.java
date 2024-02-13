@@ -15,8 +15,11 @@ public class Service {
 		
 		if (result > 0) {
 			JDBCTemplate.commit(conn);
+			System.out.println("커밋");
 		} else {
 			JDBCTemplate.rollback(conn);
+			System.out.println("롤백");
+
 		}
 		
 		JDBCTemplate.close(conn);

@@ -15,7 +15,7 @@ public class JDBCTemplate {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", 
-					"C##omok", "omok");
+					"C##OMOK", "OMOK");
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -30,6 +30,7 @@ public class JDBCTemplate {
 		try {
 			if (conn != null && conn.isClosed()) {
 				conn.commit();
+				System.out.println("커밋");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -49,6 +49,7 @@ public class Client2 {
 				System.out.print("등록을 위한 이름을 입력해주세요. : ");
 				String userName = sc.next();
 				pw.println(userName);
+				pw.flush();
 				while (true) {
 					blackOrder();
 					System.out.println("착수 확인 중");

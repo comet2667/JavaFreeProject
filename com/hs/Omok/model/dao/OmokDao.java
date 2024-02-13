@@ -28,6 +28,8 @@ public class OmokDao {
 			pstmt.setString(3, u.getResult());
 			pstmt.setInt(4, u.getCount());
 			
+			result = pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
