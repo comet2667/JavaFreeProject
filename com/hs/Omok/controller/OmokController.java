@@ -1,10 +1,10 @@
-package com.hs.omok.controller;
+package com.hs.Omok.controller;
 
 import java.util.ArrayList;
 
-import com.hs.omok.model.vo.Omok;
-import com.hs.omok.model.vo.User;
-import com.hs.omok.service.Service;
+import com.hs.Omok.model.vo.Omok;
+import com.hs.Omok.model.vo.User;
+import com.hs.Omok.service.Service;
 
 public class OmokController {
 	

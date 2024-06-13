@@ -1,4 +1,4 @@
-package com.hs.omok.model.vo;
+package com.hs.Omok.model.vo;
 
 import java.sql.Date;
 

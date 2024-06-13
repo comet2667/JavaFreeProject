@@ -1,4 +1,4 @@
-package com.hs.omok.common;
+package com.hs.Omok.common;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

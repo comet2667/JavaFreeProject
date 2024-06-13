@@ -1,7 +1,7 @@
-package com.hs.omok.Run;
+package com.hs.Omok.Run;
 
 
-import com.hs.omok.view.OmokMenu;
+import com.hs.Omok.view.OmokMenu;
 
 public class TestRun {
 

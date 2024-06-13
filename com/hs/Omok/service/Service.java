@@ -1,11 +1,11 @@
-package com.hs.omok.service;
+package com.hs.Omok.service;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 
-import com.hs.omok.common.JDBCTemplate;
-import com.hs.omok.model.dao.OmokDao;
-import com.hs.omok.model.vo.User;
+import com.hs.Omok.common.JDBCTemplate;
+import com.hs.Omok.model.dao.OmokDao;
+import com.hs.Omok.model.vo.User;
 
 public class Service {
 	

@@ -1,16 +1,13 @@
-package com.hs.omok.Run;
+package com.hs.Omok.Run;
 
 
-import com.hs.omok.view.OmokMenu;
+import com.hs.Omok.view.OmokMenu;
 
 public class Run {
 	public static void main(String[] args) {
 	
 		OmokMenu om = new OmokMenu();
 		om.mainMenu();
-		//192.168.10.24
-		//192.168.8.195
-		//192.168.8.205
 	}
 	
 }

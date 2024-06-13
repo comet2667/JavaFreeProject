@@ -1,4 +1,4 @@
-package com.hs.omok.model.dao;
+package com.hs.Omok.model.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.hs.omok.common.JDBCTemplate;
-import com.hs.omok.model.vo.User;
+import com.hs.Omok.common.JDBCTemplate;
+import com.hs.Omok.model.vo.User;
 
 public class OmokDao {
 	

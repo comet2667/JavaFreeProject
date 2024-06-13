@@ -1,4 +1,4 @@
-package com.hs.omok.model.vo;
+package com.hs.Omok.model.vo;
 
 public class Omok {
 	private int[][] ground = new int[19][19];

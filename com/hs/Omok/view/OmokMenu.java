@@ -1,11 +1,11 @@
-package com.hs.omok.view;
+package com.hs.Omok.view;
 
 import java.util.Scanner;
 
-import com.hs.omok.controller.OmokController;
-import com.hs.omok.model.vo.Omok;
-import com.hs.omok.network.Client2;
-import com.hs.omok.network.Server2;
+import com.hs.Omok.controller.OmokController;
+import com.hs.Omok.model.vo.Omok;
+import com.hs.Omok.network.Client2;
+import com.hs.Omok.network.Server2;
 
 public class OmokMenu {
 	

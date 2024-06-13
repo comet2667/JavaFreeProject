@@ -1,4 +1,4 @@
-package com.hs.omok.network;
+package com.hs.Omok.network;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,8 +8,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-import com.hs.omok.controller.OmokController;
-import com.hs.omok.model.vo.Omok;
+import com.hs.Omok.controller.OmokController;
+import com.hs.Omok.model.vo.Omok;
 
 public class Client2 {
 	
